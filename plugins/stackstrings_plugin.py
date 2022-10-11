@@ -32,12 +32,8 @@ import idc
 import idautils  
 import idaapi
 
-is_py2 = (sys.version_info[0] == 2)
-
-if is_py2:
-    # currently depending on vivisect, which will never be ported to py3
-    idaapi.require('flare')
-    idaapi.require('flare.stackstrings')
+idaapi.require('flare')
+idaapi.require('flare.stackstrings')
 
 PLUGIN_COMMENT = "This is a comment"
 PLUGIN_HELP = "This is help"
@@ -69,11 +65,8 @@ class stackstrings_plugin_t(idaapi.plugin_t):
     def run(self, arg):
         try:
             idaapi.msg("StackStrings run() called with %d!\n" % arg)
-            if is_py2:
-                flare.stackstrings.main()
-                idaapi.msg("StackStrings run() done")
-            else:
-                idaapi.msg("WARNING: stackstrings only works under python2 due to vivisect dependency\n")
+            flare.stackstrings.main()
+            idaapi.msg("StackStrings run() done")
         except Exception as err:
             idaapi.msg("Exception during run: %s\n" % str(err))
             raise
